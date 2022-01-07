@@ -1,1 +1,2 @@
-export * from './Text';
+export * from './IconPicker';
+export * from './Icon';

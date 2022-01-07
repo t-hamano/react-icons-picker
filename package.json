@@ -1,7 +1,7 @@
 {
 	"name": "@t-hamano/react-icons-picker",
 	"version": "0.1.0",
-	"description": "XXXXXXXXXXXX",
+	"description": "An icon picker based on react icons",
 	"author": "Tetsuaki Hamano",
 	"license": "GPL-2.0+",
 	"keywords": [
@@ -13,9 +13,8 @@
 	"main": "build/index.js",
 	"module": "build/index.es.js",
 	"scripts": {
-		"watch": "rollup -c -w",
+		"start": "rollup -c -w",
 		"build": "rollup -c",
-		"format": "prettier --write src/**/*.{js,ts,tsx}",
 		"lint:eslint": "eslint .",
 		"lint:prettier": "prettier --check .",
 		"fix:eslint": "npm run lint:eslint -- --fix",
@@ -23,6 +22,17 @@
 		"storybook": "start-storybook -p 6006",
 		"build-storybook": "build-storybook"
 	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/t-hamano/react-icons-picker.git"
+	},
+	"bugs": {
+		"url": "https://github.com/t-hamano/react-icons-picker/issues"
+	},
+	"homepage": "https://github.com/t-hamano/react-icons-picker#readme",
+	"files": [
+		"dist"
+	],
 	"peerDependencies": {
 		"react": "^17.0.2",
 		"react-dom": "^17.0.2"
@@ -42,10 +52,6 @@
 		"babel-loader": "^8.2.3",
 		"eslint": "^8.6.0",
 		"eslint-config-prettier": "^8.3.0",
-		"eslint-config-standard": "^16.0.3",
-		"eslint-plugin-import": "^2.25.4",
-		"eslint-plugin-node": "^11.1.0",
-		"eslint-plugin-promise": "^6.0.0",
 		"npm-run-all": "^4.1.5",
 		"prettier": "^2.5.1",
 		"react": "^17.0.2",
@@ -55,5 +61,10 @@
 		"rollup-plugin-typescript2": "^0.31.1",
 		"typescript": "^4.5.4"
 	},
-	"dependencies": {}
+	"dependencies": {
+		"@loadable/component": "^5.15.2",
+		"csstype": "^3.0.10",
+		"react-icons": "^4.3.1",
+		"tiny-skeleton-loader-react": "^1.1.7"
+	}
 }
