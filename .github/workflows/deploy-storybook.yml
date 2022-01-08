@@ -7,7 +7,7 @@ on:
 
 jobs:
   deploy-storybook:
-		name: Deploy Storybook
+    name: Deploy Storybook
     runs-on: ubuntu-latest
 
     steps:
