@@ -27,9 +27,3 @@ export const Default = Template.bind({});
 Default.args = {
 	value: 'FaReact',
 };
-
-export const HasSize = Template.bind({});
-HasSize.args = {
-	value: 'FaReact',
-	size: 50,
-};

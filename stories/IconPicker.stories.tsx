@@ -20,27 +20,3 @@ export const Default = Template.bind({});
 Default.args = {
 	value: 'IconPicker Value.',
 };
-
-export const StyledTrigger = Template.bind({});
-
-StyledTrigger.args = {
-	value: 'IconPicker Value.',
-	className: 'some-class',
-	render: ({ open }) => (
-		<button
-			onClick={open}
-			style={{
-				border: 'none',
-				cursor: 'pointer',
-				background: 'red',
-				appearance: 'none',
-				outline: 'none',
-				color: 'white',
-				padding: '1em',
-				borderRadius: '5px',
-			}}
-		>
-			Toggle Icon Picker
-		</button>
-	),
-};

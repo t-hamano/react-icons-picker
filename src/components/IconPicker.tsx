@@ -2,15 +2,16 @@
  * External dependencies
  */
 import React, { useState, useEffect, useRef } from 'react';
-import styled, { ThemeProvider } from 'styled-components';
+import styled from 'styled-components';
 import classNames from 'classnames';
-import * as RiLib from 'react-icons/lib';
+// import * as RiLib from 'react-icons/lib';
 import type { Properties } from 'csstype';
 
 export interface IconPickerProps {
 	value: string;
 	showSearch?: boolean;
 	showIconLabel?: boolean;
+	/* eslint @typescript-eslint/no-explicit-any: 0 */
 	onChange: (value: any) => void;
 	render: (param: { open: () => void }) => React.FC;
 	className?: string;
@@ -18,9 +19,9 @@ export interface IconPickerProps {
 }
 
 const IconPicker = ({
-	value,
-	showSearch = true,
-	showIconLabel = true,
+	// value,
+	// showSearch = true,
+	// showIconLabel = true,
 	render,
 	className,
 	containerStyles,
