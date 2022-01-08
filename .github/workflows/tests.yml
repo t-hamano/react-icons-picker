@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-  lint:
+  lint-eslint:
     name: Lint ESLint
     runs-on: ubuntu-latest
 
@@ -28,7 +28,7 @@ jobs:
       - name: Run tests
         run: npm run lint:eslint
 
-  lint:
+  lint-prettier:
     name: Lint Prettier
     runs-on: ubuntu-latest
 
