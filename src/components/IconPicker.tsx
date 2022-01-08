@@ -14,30 +14,20 @@ import { getPopoverPositionStyles } from '../utils/helper';
 
 export interface IconPickerProps {
 	value: string;
-	showSearch?: boolean;
-	showIconLabel?: boolean;
 	/* eslint @typescript-eslint/no-explicit-any: 0 */
 	onChange: (value: any) => void;
 	render: (param: { open: () => void }) => React.FC;
 	className?: string;
-	containerStyles?: CSSProperties;
-	position?: {
-		x: 'left' | 'center' | 'right';
-		y: 'top' | 'middle' | 'bottom';
-	};
+	positionX: 'left' | 'center' | 'right';
+	positionY: 'top' | 'middle' | 'bottom';
 }
 
 const IconPicker = ({
 	// value,
-	// showSearch = true,
-	// showIconLabel = true,
 	render,
 	className,
-	containerStyles,
-	position = {
-		x: 'center',
-		y: 'bottom',
-	},
+	positionX = 'center',
+	positionY = 'bottom',
 }: IconPickerProps) => {
 	const ref = useRef<HTMLDivElement>(null);
 	const [isOpen, setIsOpen] = useState(false);
@@ -66,7 +56,9 @@ const IconPicker = ({
 	const open = () => {
 		if (!ref.current) return;
 		const clientRect = ref.current.getBoundingClientRect();
-		const positionStyles = getPopoverPositionStyles(clientRect, position.x, position.y);
+		const positionStyles = getPopoverPositionStyles(clientRect, positionX, positionY);
+
+		console.log(positionStyles);
 		setPopoverPosition(positionStyles);
 		setIsOpen(!isOpen);
 	};
@@ -75,16 +67,12 @@ const IconPicker = ({
 		render({ open })
 	) : (
 		<Trigger className="react-icons-picker__trigger" onClick={open}>
-			Select
+			select icon
 		</Trigger>
 	);
 
 	return (
-		<Container
-			className={classNames('react-icons-picker', className)}
-			style={containerStyles}
-			ref={ref}
-		>
+		<Container className={classNames('react-icons-picker', className)} ref={ref}>
 			{renderUi}
 			{isOpen && (
 				<Popover style={popoverPosition} className={classNames('react-icons-picker__popover')}>
@@ -104,23 +92,22 @@ const Container = styled.div`
 const Trigger = styled.button`
 	border: none;
 	cursor: pointer;
-	background: #7f8c8d;
+	background: transparent;
 	appearance: none;
 	outline: none;
-	color: white;
+	color: #1e1e1e;
 	padding: 0.5em 1em;
-	border-radius: 5px;
+	border-radius: 2px;
+	border: 1px solid currentColor;
 `;
 
 const Popover = styled.div`
 	position: absolute;
 	background-color: #fff;
-	padding: 5px;
+	padding: 8px;
 	width: 200px;
 	max-height: 300px;
-	border-radius: 4px;
-	border-width: 2px;
-	border-color: #000;
-	border-style: solid;
-	z-index: 10;
+	border-radius: 2px;
+	border: 1px solid #1e1e1e;
+	z-index: 1000000;
 `;

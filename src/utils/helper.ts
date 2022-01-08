@@ -20,11 +20,11 @@ export function getPopoverPositionStyles(
 	const positionStyles: CSSProperties = {};
 
 	if (positionX === 'left') {
-		positionStyles.left = `${anchorRect.width + 10}px`;
+		positionStyles.right = `${anchorRect.width + 10}px`;
 	} else if (positionX === 'center') {
 		positionStyles.left = '50%';
 	} else {
-		positionStyles.right = `${anchorRect.width + 10}px`;
+		positionStyles.left = `${anchorRect.width + 10}px`;
 	}
 
 	if (positionY === 'top') {

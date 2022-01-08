@@ -24,8 +24,6 @@ const Template: Story<IconPickerProps> = (args) => <IconPicker {...args} />;
 export const Default = Template.bind({});
 Default.args = {
 	value: 'IconPicker Value.',
-	position: {
-		x: 'center',
-		y: 'bottom',
-	},
+	positionX: 'center',
+	positionY: 'bottom',
 };

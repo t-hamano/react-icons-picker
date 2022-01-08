@@ -46,18 +46,6 @@ const Example = () => {
 };
 ```
 
-### ModalIconPicker
-
-```typescript
-import { useState } from 'react';
-import { ModalIconPicker } from '@t-hamano/react-icons-picker';
-
-const Example = () => {
-  const [icon, setIcon] = useState();
-  return <ModalIconPicker value={icon} onChange={setIcon} />;
-};
-```
-
 ### Icon
 
 ```typescript
@@ -88,6 +76,12 @@ const Example = () => {
 | ----- | ------ | -------- | ----------- |
 | value | string | true     | Lorem ipsum |
 
+## Adjustment CSS
+
+### Global Inline Styling
+
+### Global `className` Styling
+
 ## Development
 
 ### On Storybook
@@ -101,3 +95,5 @@ If you are interested in contributing, please submit a PR.
 ### Contributors
 
 + [Tetsuaki Hamano](https://github.com/t-hamano)
+
+## Licence
