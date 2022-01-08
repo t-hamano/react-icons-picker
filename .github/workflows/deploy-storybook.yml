@@ -6,11 +6,9 @@ on:
       - main
 
 jobs:
-  build-and-deploy:
+  deploy-storybook:
+		name: Deploy Storybook
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node: ['14']
 
     steps:
       - name: Checkout
@@ -21,13 +19,12 @@ jobs:
       - name: Use desired version of NodeJS
         uses: actions/setup-node@v2
         with:
-          node-version: ${{ matrix.node }}
-          cache: npm
+          node-version: 14.x
 
-      - name: Install Dependencies
+      - name: Install dependencies
         run: npm ci
 
-      - name: Build Storybook
+      - name: Build storybook
         run: npm run build-storybook -- -o ./storybook
 
       - name: Deploy
