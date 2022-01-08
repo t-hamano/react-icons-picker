@@ -3,11 +3,16 @@
  */
 import React from 'react';
 import { Meta, Story } from '@storybook/react';
+import * as AllIcons from 'react-icons/fa';
 
 /**
  * Internal dependencies
  */
 import IconPicker, { IconPickerProps } from '../src/components/IconPicker';
+
+interface IconPickerStoryProps extends IconPickerProps {
+	value: keyof typeof AllIcons;
+}
 
 export default {
 	title: 'components/IconPicker',
@@ -19,7 +24,7 @@ export default {
 	},
 } as Meta;
 
-const Template: Story<IconPickerProps> = (args) => <IconPicker {...args} />;
+const Template: Story<IconPickerStoryProps> = (args) => <IconPicker {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
