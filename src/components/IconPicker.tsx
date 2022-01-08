@@ -5,7 +5,12 @@ import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import classNames from 'classnames';
 // import * as RiLib from 'react-icons/lib';
-import type { Properties } from 'csstype';
+import type { CSSProperties } from 'react';
+
+/**
+ * Internal dependencies
+ */
+import { getPopoverPositionStyles } from '../utils/helper';
 
 export interface IconPickerProps {
 	value: string;
@@ -15,7 +20,11 @@ export interface IconPickerProps {
 	onChange: (value: any) => void;
 	render: (param: { open: () => void }) => React.FC;
 	className?: string;
-	containerStyles?: Properties;
+	containerStyles?: CSSProperties;
+	position?: {
+		x: 'left' | 'center' | 'right';
+		y: 'top' | 'middle' | 'bottom';
+	};
 }
 
 const IconPicker = ({
@@ -25,9 +34,14 @@ const IconPicker = ({
 	render,
 	className,
 	containerStyles,
+	position = {
+		x: 'center',
+		y: 'bottom',
+	},
 }: IconPickerProps) => {
 	const ref = useRef<HTMLDivElement>(null);
 	const [isOpen, setIsOpen] = useState(false);
+	const [popoverPosition, setPopoverPosition] = useState<CSSProperties | undefined>(undefined);
 
 	useEffect(() => {
 		function handleClickOutside(event: Event) {
@@ -50,6 +64,10 @@ const IconPicker = ({
 	}, [ref]);
 
 	const open = () => {
+		if (!ref.current) return;
+		const clientRect = ref.current.getBoundingClientRect();
+		const positionStyles = getPopoverPositionStyles(clientRect, position.x, position.y);
+		setPopoverPosition(positionStyles);
 		setIsOpen(!isOpen);
 	};
 
@@ -68,7 +86,11 @@ const IconPicker = ({
 			ref={ref}
 		>
 			{renderUi}
-			{isOpen && <Popover className={classNames('react-icons-picker__popover')}>inner</Popover>}
+			{isOpen && (
+				<Popover style={popoverPosition} className={classNames('react-icons-picker__popover')}>
+					inner
+				</Popover>
+			)}
 		</Container>
 	);
 };
@@ -92,7 +114,6 @@ const Trigger = styled.button`
 
 const Popover = styled.div`
 	position: absolute;
-	top: 45px;
 	background-color: #fff;
 	padding: 5px;
 	width: 200px;

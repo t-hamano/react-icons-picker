@@ -12,6 +12,11 @@ import IconPicker, { IconPickerProps } from '../src/components/IconPicker';
 export default {
 	title: 'components/IconPicker',
 	component: IconPicker,
+	argTypes: {
+		className: {
+			control: { type: 'text' },
+		},
+	},
 } as Meta;
 
 const Template: Story<IconPickerProps> = (args) => <IconPicker {...args} />;
@@ -19,4 +24,8 @@ const Template: Story<IconPickerProps> = (args) => <IconPicker {...args} />;
 export const Default = Template.bind({});
 Default.args = {
 	value: 'IconPicker Value.',
+	position: {
+		x: 'center',
+		y: 'bottom',
+	},
 };

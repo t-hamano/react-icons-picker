@@ -36,7 +36,7 @@ yarn add @t-hamano/react-icons-picker
 
 ### IconPicker
 
-```react
+```typescript
 import { useState } from 'react';
 import { IconPicker } from '@t-hamano/react-icons-picker';
 
@@ -48,7 +48,7 @@ const Example = () => {
 
 ### ModalIconPicker
 
-```react
+```typescript
 import { useState } from 'react';
 import { ModalIconPicker } from '@t-hamano/react-icons-picker';
 
@@ -60,7 +60,7 @@ const Example = () => {
 
 ### Icon
 
-```react
+```typescript
 import { Icon } from '@t-hamano/react-icons-picker';
 
 const Example = () => {
