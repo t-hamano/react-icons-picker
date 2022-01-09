@@ -2,21 +2,21 @@
  * External dependencies
  */
 import * as AllIcons from 'react-icons/all';
-import type { Property } from 'csstype';
 
 export interface IconProps {
 	value: keyof typeof AllIcons;
-	size?: Property.Width;
+	/* eslint-disable @typescript-eslint/no-explicit-any */
+	[x: string]: any;
 }
 
-const Icon = ({ value, size, ...props }: IconProps) => {
+const Icon = ({ value, ...props }: IconProps) => {
 	if (value in AllIcons === false) {
 		return null;
 	}
 
 	const Icon = AllIcons[value as keyof typeof AllIcons];
 
-	return <Icon size={size} {...props} />;
+	return <Icon {...props} />;
 };
 
 export default Icon;

@@ -5,19 +5,16 @@ import type { CSSProperties } from 'react';
 
 /**
  * Utility used to compute the popover position styles.
- *
- * @param {Object}  anchorRect Anchor Rect.
- * @param {string}  positionX  Desired xaxis position.
- * @param {string}  positionY  Desired yaxis position.
- *
- * @return {Object} Popover position CSS properties.
  */
-export function getPopoverPositionStyles(
-	anchorRect: DOMRect,
-	positionX: 'left' | 'center' | 'right',
-	positionY: 'top' | 'middle' | 'bottom'
-) {
+export function getPopoverPositionStyles(anchorRect: DOMRect, position: string): CSSProperties {
 	const positionStyles: CSSProperties = {};
+
+	const positionX =
+		position.split(' ').filter((string) => ['left', 'center', 'right'].includes(string))?.[0] ||
+		'center';
+	const positionY =
+		position.split(' ').filter((string) => ['top', 'middle', 'bottom'].includes(string))?.[0] ||
+		'middle';
 
 	if (positionX === 'left') {
 		positionStyles.right = `${anchorRect.width + 10}px`;

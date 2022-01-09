@@ -4,34 +4,64 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import classNames from 'classnames';
-// import * as RiLib from 'react-icons/lib';
 import type { CSSProperties } from 'react';
 
 /**
  * Internal dependencies
  */
+import Search from './Search';
+import Category from './Category';
+import IconList from './IconList';
 import { getPopoverPositionStyles } from '../utils/helper';
+import { theme } from '../utils/constants';
 
 export interface IconPickerProps {
 	value: string;
-	/* eslint @typescript-eslint/no-explicit-any: 0 */
-	onChange: (value: any) => void;
-	render: (param: { open: () => void }) => React.FC;
+	position?: string;
 	className?: string;
-	positionX: 'left' | 'center' | 'right';
-	positionY: 'top' | 'middle' | 'bottom';
+	title?: string;
+	closeOnSelect?: boolean;
+	shouldCloseOnEsc?: boolean;
+	focusOnSearch?: boolean;
+	showSearch?: boolean;
+	showCategory?: boolean;
+	showIconLabel?: boolean;
+	highlightMatchedString?: boolean;
+	searchPlaceholder?: string;
+	minCharaPlaceHolder?: string;
+	categoryPlaceHolder?: string;
+	noIconPlaceholder?: string;
+	// onChange: (value: any) => void;
+	render: (param: { open: () => void }) => React.FC;
 }
 
 const IconPicker = ({
 	// value,
-	render,
+	position = 'bottom',
 	className,
-	positionX = 'center',
-	positionY = 'bottom',
+	title = 'Select Icon',
+	closeOnSelect = true,
+	shouldCloseOnEsc = true,
+	focusOnSearch = true,
+	showSearch = true,
+	showCategory = true,
+	showIconLabel = true,
+	highlightMatchedString = true,
+	searchPlaceholder = 'search icons...',
+	minCharaPlaceHolder = 'Please enter at least 3 characters to search...',
+	categoryPlaceHolder = 'all category',
+	noIconPlaceholder = 'No icons found',
+	// onChange,
+	render,
 }: IconPickerProps) => {
 	const ref = useRef<HTMLDivElement>(null);
 	const [isOpen, setIsOpen] = useState(false);
+	const [query, setQuery] = useState<string>('');
+	const [category, setCategory] = useState<string>('');
 	const [popoverPosition, setPopoverPosition] = useState<CSSProperties | undefined>(undefined);
+
+	const categories = category ? [category] : [];
+	const colCount = 5;
 
 	useEffect(() => {
 		function handleClickOutside(event: Event) {
@@ -55,12 +85,19 @@ const IconPicker = ({
 
 	const open = () => {
 		if (!ref.current) return;
-		const clientRect = ref.current.getBoundingClientRect();
-		const positionStyles = getPopoverPositionStyles(clientRect, positionX, positionY);
 
-		console.log(positionStyles);
+		const clientRect = ref.current.getBoundingClientRect();
+		const positionStyles = getPopoverPositionStyles(clientRect, position);
+
 		setPopoverPosition(positionStyles);
 		setIsOpen(!isOpen);
+	};
+
+	const handleEscapeKeyDown = (event: React.KeyboardEvent) => {
+		if (shouldCloseOnEsc && event.keyCode === 27) {
+			event.preventDefault();
+			setIsOpen(false);
+		}
 	};
 
 	const renderUi = render ? (
@@ -71,12 +108,44 @@ const IconPicker = ({
 		</Trigger>
 	);
 
+	const searchProps = {
+		searchPlaceholder,
+		focusOnSearch,
+		query,
+		setQuery,
+	};
+
+	const categoryProps = {
+		categoryPlaceHolder,
+		category,
+		setCategory,
+	};
+
+	const iconListProps = {
+		query,
+		categories,
+		colCount,
+		closeOnSelect,
+		showIconLabel,
+		highlightMatchedString,
+		minCharaPlaceHolder,
+		noIconPlaceholder,
+		setIsOpen,
+	};
+
 	return (
-		<Container className={classNames('react-icons-picker', className)} ref={ref}>
+		<Container
+			className={classNames('react-icons-picker', className)}
+			ref={ref}
+			onKeyDown={(event) => handleEscapeKeyDown(event)}
+		>
 			{renderUi}
 			{isOpen && (
 				<Popover style={popoverPosition} className={classNames('react-icons-picker__popover')}>
-					inner
+					{title && <PopoverTitle className="react-icons-picker__title">{title}</PopoverTitle>}
+					{showSearch && <Search {...searchProps} />}
+					{showCategory && <Category {...categoryProps} />}
+					<IconList {...iconListProps} />
 				</Popover>
 			)}
 		</Container>
@@ -87,6 +156,13 @@ export default IconPicker;
 
 const Container = styled.div`
 	position: relative;
+	line-height: 1.7;
+	color: ${theme.color.font};
+	font-size: ${theme.fontSize.default};
+
+	* {
+		box-sizing: border-box;
+	}
 `;
 
 const Trigger = styled.button`
@@ -95,19 +171,25 @@ const Trigger = styled.button`
 	background: transparent;
 	appearance: none;
 	outline: none;
-	color: #1e1e1e;
+	color: ${theme.color.font};
 	padding: 0.5em 1em;
-	border-radius: 2px;
+	border-radius: ${theme.radius.ui};
 	border: 1px solid currentColor;
 `;
 
 const Popover = styled.div`
 	position: absolute;
 	background-color: #fff;
-	padding: 8px;
-	width: 200px;
-	max-height: 300px;
-	border-radius: 2px;
-	border: 1px solid #1e1e1e;
+	padding: 16px;
+	width: 360px;
+	border-radius: ${theme.radius.ui};
+	border: 1px solid ${theme.color.gray.primary};
 	z-index: 1000000;
+	max-width: calc(100vw - 24px);
+`;
+
+const PopoverTitle = styled.div`
+	text-align: center;
+	font-weight: bold;
+	margin-bottom: 12px;
 `;

@@ -4,4 +4,5 @@ module.exports = {
 	printWidth: 100,
 	useTabs: true,
 	arrowParens: 'always',
+	bracketSpacing: true,
 };
