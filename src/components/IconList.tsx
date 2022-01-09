@@ -142,6 +142,7 @@ const ItemLabel = styled.span`
 	margin-top: 4px;
 	overflow: hidden;
 	font-size: 10px;
+	width: 100%;
 
 	strong {
 		color: ${theme.color.primary};
