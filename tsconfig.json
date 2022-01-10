@@ -17,7 +17,7 @@
 		"noUnusedParameters": true,
 		"noImplicitReturns": true,
 		"noFallthroughCasesInSwitch": true,
-		"importsNotUsedAsValues": "error",
+		"importsNotUsedAsValues": "error"
 	},
 	"include": ["src/**/*", "src/**/*.json"],
 	"exclude": ["**/build/**"]
