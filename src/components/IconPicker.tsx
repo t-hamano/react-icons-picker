@@ -338,5 +338,6 @@ const Popover = styled(
 const PopoverTitle = styled.div`
 	text-align: center;
 	font-weight: bold;
+	font-size: 16px;
 	margin-bottom: 8px;
 `;
