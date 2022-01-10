@@ -1,6 +1,10 @@
 # React Icons Picker
 :red_circle:This project is still under development.
 
+## Demo
+
+[Demo](https://t-hamano.github.io/react-icons-picker/)
+
 ## Overview
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
@@ -10,13 +14,6 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 Each components are also strongly typed.
 
 [image]
-
-## Demo
-
-This library is developed in a [Storybook](https://storybook.js.org/)-driven flow.
-You can check the behavior of each component in the Storybook on Github Pages.
-
-[Demo](https://t-hamano.github.io/react-icons-picker/)
 
 ## Installation
 
@@ -85,6 +82,8 @@ const Example = () => {
 ## Development
 
 ### On Storybook
+
+This library is developed in a [Storybook](https://storybook.js.org/) driven flow.
 
 ### On Your Project
 
