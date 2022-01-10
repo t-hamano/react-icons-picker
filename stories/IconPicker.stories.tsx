@@ -3,6 +3,7 @@
  */
 import React from 'react';
 import { Meta, Story } from '@storybook/react';
+import useState from 'storybook-addon-state';
 import * as AllIcons from 'react-icons/fa';
 
 /**
@@ -46,7 +47,10 @@ export default {
 	},
 } as Meta;
 
-const Template: Story<IconPickerStoryProps> = (args) => <IconPicker {...args} />;
+const Template: Story<IconPickerStoryProps> = (args) => {
+	const [iconValue, setIconValue] = useState('iconValue', undefined);
+	return <IconPicker {...args} value={iconValue} onChange={(value) => setIconValue(value)} />;
+};
 
 export const Default = Template.bind({});
 Default.args = {

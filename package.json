@@ -15,6 +15,7 @@
 	"scripts": {
 		"start": "rollup -c -w",
 		"build": "rollup -c",
+		"lint": "npm-run-all lint:*",
 		"lint:eslint": "eslint .",
 		"lint:prettier": "prettier --check .",
 		"fix:eslint": "npm run lint:eslint -- --fix",
@@ -63,6 +64,7 @@
 		"rollup": "^2.63.0",
 		"rollup-plugin-peer-deps-external": "^2.2.4",
 		"rollup-plugin-typescript2": "^0.31.1",
+		"storybook-addon-state": "^1.0.3",
 		"typescript": "^4.5.4"
 	},
 	"dependencies": {

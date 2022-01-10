@@ -19,7 +19,7 @@ import { getIcons } from '../utils/icon';
 import type { Icons } from '../utils/icon';
 
 export interface IconPickerProps {
-	value: string;
+	value: string | undefined;
 	position?: string;
 	className?: string;
 	title?: string;
@@ -33,12 +33,12 @@ export interface IconPickerProps {
 	searchPlaceholder?: string;
 	categoryPlaceHolder?: string;
 	noIconPlaceholder?: string;
-	// onChange: (value: any) => void;
+	onChange: (value: string) => void;
 	render: (param: { open: () => void }) => React.FC;
 }
 
 const IconPicker = ({
-	// value,
+	// value: iconValue,
 	position = 'bottom',
 	className,
 	title = 'Select Icon',
