@@ -6,26 +6,61 @@ import styled from 'styled-components';
 /**
  * Internal dependencies
  */
-import { theme } from '../utils/constants';
+import { theme, layout } from '../utils/constants';
 import Icon from './Icon';
 
-// interface CategoryProps {
-// 	categoryPlaceHolder: string;
-// 	category?: string;
-// 	setCategory: React.Dispatch<React.SetStateAction<string>>;
-// }
+interface PaginationProps {
+	pageInfo: { currentPage: number | undefined; perPage: number; maxPage: number };
+	setPageInfo: React.Dispatch<
+		React.SetStateAction<{ currentPage: number | undefined; perPage: number; maxPage: number }>
+	>;
+}
 
-const Pagination = () => {
+const Pagination = ({ pageInfo, setPageInfo }: PaginationProps) => {
+	const onPagerChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const value = event.target.value;
+		const parsedValue = parseInt(value);
+		setPageInfo({
+			...pageInfo,
+			currentPage: value ? (isNaN(parsedValue) ? 1 : parsedValue) : undefined,
+		});
+	};
+
+	const onClickArrow = (offset: number) => {
+		const newCurrentPage = (pageInfo.currentPage || 1) + offset;
+		if (newCurrentPage === 0) return;
+		setPageInfo({
+			...pageInfo,
+			currentPage: newCurrentPage,
+		});
+	};
+
 	return (
 		<Container className="react-icons-picker-pagination">
 			<Pager className="react-icons-picker-pagination__pager">
-				<Input type="number" className="react-icons-picker-pagination__input" min="1" /> / 30
+				<Input
+					type="number"
+					className="react-icons-picker-pagination__input"
+					min="1"
+					max={pageInfo.maxPage}
+					value={pageInfo.currentPage}
+					onChange={onPagerChange}
+				/>
+				/ {pageInfo.maxPage}
 			</Pager>
-			<Arrow className="react-icons-picker-pagination__arrow" aria-label="Prev">
-				<Icon value="FaChevronLeft" />
+			<Arrow
+				className="react-icons-picker-pagination__arrow"
+				aria-label="Prev"
+				disabled={!pageInfo.currentPage || pageInfo.currentPage === 1}
+			>
+				<Icon value="FaChevronLeft" onClick={() => onClickArrow(-1)} />
 			</Arrow>
-			<Arrow className="react-icons-picker-pagination__arrow" aria-label="Next">
-				<Icon value="FaChevronRight" />
+			<Arrow
+				className="react-icons-picker-pagination__arrow"
+				aria-label="Next"
+				disabled={pageInfo.currentPage && pageInfo.currentPage >= pageInfo.maxPage}
+			>
+				<Icon value="FaChevronRight" onClick={() => onClickArrow(1)} />
 			</Arrow>
 		</Container>
 	);
@@ -50,9 +85,10 @@ const Input = styled.input`
 	padding: 4px;
 	background-color: transparent;
 	border: none;
-	border-bottom: 1px solid ${theme.color.gray.secondary};
-	transition: border-color ${theme.transition.duration}, box-shadow ${theme.transition.duration};
+	border-bottom: 1px solid ${theme.default.gray.secondary};
+	transition: border-color ${layout.transition.duration}, box-shadow ${layout.transition.duration};
 	appearance: none;
+	text-align: right;
 	border-radius: 0;
 	color: inherit;
 	width: calc(3em + 8px);
@@ -61,16 +97,16 @@ const Input = styled.input`
 
 	&:focus {
 		outline: 2px transparent;
-		border-color: ${theme.color.primary};
-		box-shadow: 0 1px ${theme.color.primary};
+		border-color: ${theme.default.primary};
+		box-shadow: 0 1px ${theme.default.primary};
 	}
 
 	&::placeholder {
-		color: ${theme.color.gray.secondary};
+		color: ${theme.default.gray.secondary};
 	}
 
 	&:-ms-input-placeholder {
-		color: ${theme.color.gray.secondary};
+		color: ${theme.default.gray.secondary};
 	}
 
 	&::-webkit-inner-spin-button,
@@ -91,16 +127,21 @@ const Arrow = styled((props) => <button {...props} />)`
 	padding: 0;
 	font-size: 14px;
 	margin: 0 0 0 8px;
-	background: ${theme.color.primary};
-	transition: color ${theme.transition.duration}, background ${theme.transition.duration};
-	border-radius: ${theme.radius.ui};
+	background: ${theme.default.primary};
+	transition: color ${layout.transition.duration}, background ${layout.transition.duration};
+	border-radius: ${layout.radius.ui};
 	cursor: pointer;
 
 	&:hover {
-		background: ${theme.color.darker};
+		background: ${theme.default.darker};
 	}
 	&:focus {
-		box-shadow: 0 0 0 2px ${theme.color.primary}, inset 0 0 0 1px #fff;
+		box-shadow: 0 0 0 2px ${theme.default.primary}, inset 0 0 0 1px #fff;
 		outline: 1px solid transparent;
+	}
+
+	&[disabled] {
+		background: ${theme.default.gray.tertiary};
+		pointer-events: none;
 	}
 `;

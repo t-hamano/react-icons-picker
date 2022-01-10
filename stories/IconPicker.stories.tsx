@@ -41,7 +41,6 @@ export default {
 		showIconLabel: { control: { type: 'boolean' } },
 		highlightMatchedString: { control: { type: 'boolean' } },
 		searchPlaceholder: { control: { type: 'text' } },
-		minCharaPlaceHolder: { control: { type: 'text' } },
 		categoryPlaceHolder: { control: { type: 'text' } },
 		noIconPlaceholder: { control: { type: 'text' } },
 	},
@@ -63,7 +62,6 @@ Default.args = {
 	showIconLabel: true,
 	highlightMatchedString: true,
 	searchPlaceholder: 'search icons...',
-	minCharaPlaceHolder: 'Please enter at least 3 characters to search...',
 	categoryPlaceHolder: 'all category',
 	noIconPlaceholder: 'No icons found',
 };

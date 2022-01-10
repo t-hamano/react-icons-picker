@@ -7,36 +7,38 @@ import styled from 'styled-components';
 /**
  * Internal dependencies
  */
-import { getIcons } from '../utils/icon';
-import { theme } from '../utils/constants';
+import { theme, layout } from '../utils/constants';
+import type { Icons } from '../utils/icon';
 
 interface IconListProps {
+	iconList: Icons;
+	pageInfo: { currentPage: number | undefined; perPage: number };
 	query: string;
-	categories: string[];
 	colCount: number;
 	closeOnSelect: boolean;
 	showIconLabel: boolean;
 	highlightMatchedString: boolean;
-	minCharaPlaceHolder: string;
 	noIconPlaceholder: string;
 	setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const IconList = ({
-	query = '',
-	categories = [],
+	iconList,
+	pageInfo,
+	query,
 	colCount,
 	closeOnSelect,
 	showIconLabel,
 	highlightMatchedString,
-	minCharaPlaceHolder,
 	noIconPlaceholder,
 	setIsOpen,
 }: IconListProps) => {
-	const iconList = getIcons(query, categories).slice(0, 20);
+	const offset = pageInfo.perPage * ((pageInfo.currentPage || 1) - 1);
+	const filteredIconList = iconList.slice(offset, offset + pageInfo.perPage);
 
+	// Highlight text that matches the query in the icon label.
 	const highlightedLabel = (label: string) => {
-		if (query.length > 2 && highlightMatchedString) {
+		if (query.length && highlightMatchedString) {
 			const hightlightPattern = new RegExp(`(${query})`, 'i');
 			return label
 				.split(hightlightPattern)
@@ -54,11 +56,9 @@ const IconList = ({
 
 	return (
 		<Container className="react-icons-picker-icon-list">
-			{query && query.length <= 2 ? (
-				<p className="react-icons-picker-icon-list__placeholder">{minCharaPlaceHolder}</p>
-			) : iconList.length ? (
+			{filteredIconList.length ? (
 				<List className="react-icons-picker-icon-list__list">
-					{iconList.map((icon, index) => {
+					{filteredIconList.map((icon, index) => {
 						return (
 							<Item colCount={colCount} key={index} className="react-icons-picker-icon-list__item">
 								<ItemButton
@@ -79,7 +79,9 @@ const IconList = ({
 					})}
 				</List>
 			) : (
-				<p className="react-icons-picker-icon-list__placeholder">{noIconPlaceholder}</p>
+				<Placeholder className="react-icons-picker-icon-list__placeholder">
+					{noIconPlaceholder}
+				</Placeholder>
 			)}
 		</Container>
 	);
@@ -119,14 +121,14 @@ const ItemButton = styled((props) => <button {...props} />)`
 	font-size: 24px;
 	margin: 0;
 	background: transparent;
-	transition: border-color ${theme.transition.duration}, box-shadow ${theme.transition.duration};
-	border-radius: ${theme.radius.ui};
+	transition: border-color ${layout.transition.duration}, box-shadow ${layout.transition.duration};
+	border-radius: ${layout.radius.ui};
 	cursor: pointer;
 
 	&:hover,
 	&:focus {
-		color: ${theme.color.primary};
-		box-shadow: inset 0 0 0 1px ${theme.color.primary};
+		color: ${theme.default.primary};
+		box-shadow: inset 0 0 0 1px ${theme.default.primary};
 		outline: none;
 
 		svg {
@@ -135,7 +137,7 @@ const ItemButton = styled((props) => <button {...props} />)`
 	}
 
 	svg {
-		transition: transform ${theme.transition.duration};
+		transition: transform ${layout.transition.duration};
 	}
 `;
 
@@ -147,6 +149,12 @@ const ItemLabel = styled.span`
 	width: 100%;
 
 	strong {
-		color: ${theme.color.primary};
+		color: ${theme.default.primary};
 	}
+`;
+
+const Placeholder = styled.p`
+	text-align: center;
+	margin: 0;
+	padding: 3em 0;
 `;

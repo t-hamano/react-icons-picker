@@ -7,7 +7,7 @@ import styled from 'styled-components';
 /**
  * Internal dependencies
  */
-import { theme } from '../utils/constants';
+import { theme, layout } from '../utils/constants';
 
 interface SearchProps {
 	searchPlaceholder: string;
@@ -57,23 +57,23 @@ const Input = styled.input`
 	padding: 4px;
 	background-color: transparent;
 	border: none;
-	border-bottom: 1px solid ${theme.color.gray.secondary};
-	transition: border-color ${theme.transition.duration}, box-shadow ${theme.transition.duration};
+	border-bottom: 1px solid ${theme.default.gray.secondary};
+	transition: border-color ${layout.transition.duration}, box-shadow ${layout.transition.duration};
 	appearance: none;
 	border-radius: 0;
 	color: inherit;
 
 	&:focus {
 		outline: 2px transparent;
-		border-color: ${theme.color.primary};
-		box-shadow: 0 1px ${theme.color.primary};
+		border-color: ${theme.default.primary};
+		box-shadow: 0 1px ${theme.default.primary};
 	}
 
 	&::placeholder {
-		color: ${theme.color.gray.secondary};
+		color: ${theme.default.gray.secondary};
 	}
 
 	&:-ms-input-placeholder {
-		color: ${theme.color.gray.secondary};
+		color: ${theme.default.gray.secondary};
 	}
 `;

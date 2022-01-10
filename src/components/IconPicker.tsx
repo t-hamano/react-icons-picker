@@ -14,7 +14,9 @@ import Category from './Category';
 import Pagination from './Pagination';
 import IconList from './IconList';
 import { getPopoverPositionStyles } from '../utils/helper';
-import { theme } from '../utils/constants';
+import { theme, layout } from '../utils/constants';
+import { getIcons } from '../utils/icon';
+import type { Icons } from '../utils/icon';
 
 export interface IconPickerProps {
 	value: string;
@@ -29,7 +31,6 @@ export interface IconPickerProps {
 	showIconLabel?: boolean;
 	highlightMatchedString?: boolean;
 	searchPlaceholder?: string;
-	minCharaPlaceHolder?: string;
 	categoryPlaceHolder?: string;
 	noIconPlaceholder?: string;
 	// onChange: (value: any) => void;
@@ -49,21 +50,54 @@ const IconPicker = ({
 	showIconLabel = true,
 	highlightMatchedString = true,
 	searchPlaceholder = 'search icons...',
-	minCharaPlaceHolder = 'Please enter at least 3 characters to search...',
 	categoryPlaceHolder = 'all category',
 	noIconPlaceholder = 'No icons found',
 	// onChange,
 	render,
 }: IconPickerProps) => {
 	const ref = useRef<HTMLDivElement>(null);
-	const [isOpen, setIsOpen] = useState(false);
+	const [isOpen, setIsOpen] = useState<boolean>(false);
 	const [query, setQuery] = useState<string>('');
+	const [iconList, setIconList] = useState<Icons>([]);
+	const [pageInfo, setPageInfo] = useState<{
+		currentPage: number | undefined;
+		perPage: number;
+		maxPage: number;
+	}>({
+		currentPage: 1,
+		perPage: 20,
+		maxPage: 1,
+	});
+
 	const [category, setCategory] = useState<string>('');
 	const [popoverPosition, setPopoverPosition] = useState<CSSProperties | undefined>(undefined);
 
 	const categories = category ? [category] : [];
 	const colCount = 5;
 
+	// Get a list of icons based on state.
+	useEffect(() => {
+		const iconList = getIcons({ query, categories });
+		const maxPage = Math.trunc(iconList.length / pageInfo.perPage + 1);
+		setIconList(iconList);
+		setPageInfo({
+			...pageInfo,
+			maxPage,
+		});
+	}, []);
+
+	useEffect(() => {
+		const iconList = getIcons({ query, categories });
+		const maxPage = Math.trunc(iconList.length / pageInfo.perPage + 1);
+		setIconList(iconList);
+		setPageInfo({
+			...pageInfo,
+			currentPage: 1,
+			maxPage,
+		});
+	}, [category, query]);
+
+	// Close popover when the outside of popover is clicked.
 	useEffect(() => {
 		function handleClickOutside(event: Event) {
 			if (
@@ -84,6 +118,7 @@ const IconPicker = ({
 		};
 	}, [ref]);
 
+	// Display popover at the specified position.
 	const open = () => {
 		if (!ref.current) return;
 
@@ -94,6 +129,7 @@ const IconPicker = ({
 		setIsOpen(!isOpen);
 	};
 
+	// Close popover when the escape key is pressed.
 	const handleEscapeKeyDown = (event: React.KeyboardEvent) => {
 		if (shouldCloseOnEsc && event.keyCode === 27) {
 			event.preventDefault();
@@ -109,6 +145,7 @@ const IconPicker = ({
 		</Trigger>
 	);
 
+	// Search component props.
 	const searchProps = {
 		searchPlaceholder,
 		focusOnSearch,
@@ -116,20 +153,28 @@ const IconPicker = ({
 		setQuery,
 	};
 
+	// Category component props.
 	const categoryProps = {
 		categoryPlaceHolder,
 		category,
 		setCategory,
 	};
 
+	// Pagination component props.
+	const paginationProps = {
+		pageInfo,
+		setPageInfo,
+	};
+
+	// IconList component props.
 	const iconListProps = {
+		iconList,
+		pageInfo,
 		query,
-		categories,
 		colCount,
 		closeOnSelect,
 		showIconLabel,
 		highlightMatchedString,
-		minCharaPlaceHolder,
 		noIconPlaceholder,
 		setIsOpen,
 	};
@@ -150,7 +195,7 @@ const IconPicker = ({
 					{title && <PopoverTitle className="react-icons-picker__title">{title}</PopoverTitle>}
 					{showSearch && <Search {...searchProps} />}
 					{showCategory && <Category {...categoryProps} />}
-					<Pagination />
+					<Pagination {...paginationProps} />
 					<IconList {...iconListProps} />
 				</Popover>
 			)}
@@ -163,8 +208,8 @@ export default IconPicker;
 const Container = styled.div`
 	position: relative;
 	line-height: 1.7;
-	color: ${theme.color.font};
-	font-size: ${theme.fontSize.default};
+	color: ${theme.default.font};
+	font-size: ${layout.fontSize.default};
 
 	* {
 		box-sizing: border-box;
@@ -177,9 +222,9 @@ const Trigger = styled.button`
 	background: transparent;
 	appearance: none;
 	outline: none;
-	color: ${theme.color.font};
+	color: ${theme.default.font};
 	padding: 0.5em 1em;
-	border-radius: ${theme.radius.ui};
+	border-radius: ${layout.radius.ui};
 	border: 1px solid currentColor;
 `;
 
@@ -191,8 +236,8 @@ const Popover = styled(
 	background-color: #fff;
 	padding: 8px;
 	width: ${({ showIconLabel }: { showIconLabel: boolean }) => (showIconLabel ? '350px' : '240px')};
-	border-radius: ${theme.radius.ui};
-	border: 1px solid ${theme.color.gray.primary};
+	border-radius: ${layout.radius.ui};
+	border: 1px solid ${theme.default.gray.primary};
 	z-index: 1000000;
 	max-width: calc(100vw - 24px);
 `;
