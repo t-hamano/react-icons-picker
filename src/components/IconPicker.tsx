@@ -56,7 +56,7 @@ const IconPicker = ({
 	render,
 }: IconPickerProps) => {
 	const ref = useRef<HTMLDivElement>(null);
-	const [isOpen, setIsOpen] = useState(true);
+	const [isOpen, setIsOpen] = useState(false);
 	const [query, setQuery] = useState<string>('');
 	const [category, setCategory] = useState<string>('');
 	const [popoverPosition, setPopoverPosition] = useState<CSSProperties | undefined>(undefined);
