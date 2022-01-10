@@ -4,7 +4,7 @@
 import type { CSSProperties } from 'react';
 
 /**
- * Utility used to compute the popover position styles.
+ * Utility used to compute the popover position styles
  */
 export function getPopoverPositionStyles(anchorRect: DOMRect, position: string): CSSProperties {
 	const positionStyles: CSSProperties = {};

@@ -46,6 +46,7 @@ export default {
 
 const Template: Story<IconPickerProps> = (args) => {
 	const [iconValue, setIconValue] = useState('iconValue', undefined);
+
 	return (
 		<IconPicker
 			{...args}

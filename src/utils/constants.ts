@@ -19,7 +19,7 @@ export const theme = {
 } as const;
 
 /**
- * Common style definitions for components.
+ * Base style definitions for components
  */
 export const layout = {
 	radius: {

@@ -9,7 +9,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 
 Each components are also strongly typed.
 
-[i
+[image]
 
 ## Demo
 

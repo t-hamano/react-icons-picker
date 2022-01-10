@@ -34,9 +34,7 @@ export default {
 		},
 		value: {
 			options: filteredIcons,
-			control: {
-				type: 'select',
-			},
+			control: { type: 'select' },
 		},
 		color: { control: { type: 'color' } },
 	},

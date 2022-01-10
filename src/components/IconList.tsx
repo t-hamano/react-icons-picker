@@ -76,7 +76,7 @@ const IconList = ({
 									isSelected={value === icon.label}
 									onClick={() => onClick(icon.label)}
 								>
-									{typeof icon.element === 'function' && icon.element({ size: '1em' })}
+									{typeof icon.element === 'function' && icon.element({ size: '24px' })}
 									{showIconLabel && (
 										<ItemLabel className="react-icons-picker-icon-list__item-label">
 											{highlightedLabel(icon.label)}
@@ -129,7 +129,6 @@ const ItemButton = styled(({ isSelected, ...props }: { isSelected: boolean; [x: 
 	width: 100%;
 	border: none;
 	padding: 8px;
-	font-size: 24px;
 	margin: 0;
 	background: transparent;
 	transition: border-color ${layout.transition.duration}, box-shadow ${layout.transition.duration};

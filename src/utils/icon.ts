@@ -28,7 +28,7 @@ import * as CgIcons from 'react-icons/cg';
 import type { IconType } from 'react-icons';
 
 /**
- * A list of icons categorized by font library.
+ * A list of icons categorized by font library
  */
 const allIcons = [
 	{ id: 'ai', icons: AiIcons },
@@ -55,7 +55,7 @@ const allIcons = [
 ];
 
 /**
- * Type of the icon list retrieved by `getIcons()` function.
+ * Type of the icon list retrieved by `getIcons()` function
  */
 export type Icons = {
 	label: string;
@@ -63,7 +63,7 @@ export type Icons = {
 }[];
 
 /**
- * Function used to get filtered icon list.
+ * Function used to get filtered icon list
  */
 export function getIcons({
 	query = '',
@@ -76,11 +76,11 @@ export function getIcons({
 
 	return (
 		allIcons
-			// Filter the icon set by the specified category
+			// Filter the icon set by the specified category.
 			.filter((categoryIcons) => {
 				return !categories.length || (categories.length && categories.includes(categoryIcons.id));
 			})
-			// Filter the icon list by search query
+			// Filter the icon list by search query.
 			.reduce((result: Icons, { icons }) => {
 				const filteredIcons = _.pickBy(
 					icons,

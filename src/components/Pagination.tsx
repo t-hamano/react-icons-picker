@@ -50,7 +50,7 @@ const Pagination = ({ pageInfo, setPageInfo }: PaginationProps) => {
 			</Pager>
 			<Arrow
 				className="react-icons-picker-pagination__arrow"
-				aria-label="Prev"
+				aria-label="Previous Page"
 				disabled={!pageInfo.currentPage || pageInfo.currentPage === 1}
 				onClick={() => onClickArrow(-1)}
 			>
@@ -58,7 +58,7 @@ const Pagination = ({ pageInfo, setPageInfo }: PaginationProps) => {
 			</Arrow>
 			<Arrow
 				className="react-icons-picker-pagination__arrow"
-				aria-label="Next"
+				aria-label="Next Page"
 				disabled={pageInfo.currentPage && pageInfo.currentPage >= pageInfo.maxPage}
 				onClick={() => onClickArrow(1)}
 			>
