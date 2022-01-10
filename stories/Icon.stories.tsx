@@ -3,26 +3,11 @@
  */
 import React from 'react';
 import { Meta, Story } from '@storybook/react';
-import * as AllIcons from 'react-icons/all';
-// @ts-ignore
-import { IconsManifest } from 'react-icons';
 
 /**
  * Internal dependencies
  */
-import Icon, { IconProps } from '../src/components/Icon';
-
-// Extract only the first 50 icons from each icon library to reduce the rendering load on the select box.
-const filteredIcons = [];
-const iconCategories = IconsManifest.sort((a, b) => (a.name > b.name ? 1 : -1));
-
-iconCategories.sort().forEach((icon) => {
-	filteredIcons.push(
-		...Object.keys(AllIcons)
-			.filter((value) => !value.toLowerCase().indexOf(icon.id))
-			.slice(0, 50)
-	);
-});
+import Icon, { allIcons, IconProps } from '../src/components/Icon';
 
 export default {
 	title: 'components/Icon',
@@ -33,7 +18,7 @@ export default {
 			control: { type: 'inline-radio' },
 		},
 		value: {
-			options: filteredIcons,
+			options: Object.keys(allIcons),
 			control: { type: 'select' },
 		},
 		color: { control: { type: 'color' } },
