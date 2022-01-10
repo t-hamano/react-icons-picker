@@ -52,15 +52,17 @@ const Pagination = ({ pageInfo, setPageInfo }: PaginationProps) => {
 				className="react-icons-picker-pagination__arrow"
 				aria-label="Prev"
 				disabled={!pageInfo.currentPage || pageInfo.currentPage === 1}
+				onClick={() => onClickArrow(-1)}
 			>
-				<Icon value="FaChevronLeft" onClick={() => onClickArrow(-1)} />
+				<Icon size="14px" value="FaChevronLeft" />
 			</Arrow>
 			<Arrow
 				className="react-icons-picker-pagination__arrow"
 				aria-label="Next"
 				disabled={pageInfo.currentPage && pageInfo.currentPage >= pageInfo.maxPage}
+				onClick={() => onClickArrow(1)}
 			>
-				<Icon value="FaChevronRight" onClick={() => onClickArrow(1)} />
+				<Icon size="14px" value="FaChevronRight" />
 			</Arrow>
 		</Container>
 	);
@@ -125,7 +127,6 @@ const Arrow = styled((props) => <button {...props} />)`
 	height: 26px;
 	border: none;
 	padding: 0;
-	font-size: 14px;
 	margin: 0 0 0 8px;
 	background: ${theme.default.primary};
 	transition: color ${layout.transition.duration}, background ${layout.transition.duration};

@@ -13,6 +13,7 @@ import Search from './Search';
 import Category from './Category';
 import Pagination from './Pagination';
 import IconList from './IconList';
+import Icon from './Icon';
 import { getPopoverPositionStyles } from '../utils/helper';
 import { theme, layout } from '../utils/constants';
 import { getIcons } from '../utils/icon';
@@ -33,12 +34,13 @@ export interface IconPickerProps {
 	searchPlaceholder?: string;
 	categoryPlaceHolder?: string;
 	noIconPlaceholder?: string;
-	onChange: (value: string) => void;
+	noSelectedPlaceholder?: string;
+	onChange: (value: string | undefined) => void;
 	render: (param: { open: () => void }) => React.FC;
 }
 
 const IconPicker = ({
-	// value: iconValue,
+	value,
 	position = 'bottom',
 	className,
 	title = 'Select Icon',
@@ -52,7 +54,8 @@ const IconPicker = ({
 	searchPlaceholder = 'search icons...',
 	categoryPlaceHolder = 'all category',
 	noIconPlaceholder = 'No icons found',
-	// onChange,
+	noSelectedPlaceholder = 'select icon',
+	onChange,
 	render,
 }: IconPickerProps) => {
 	const ref = useRef<HTMLDivElement>(null);
@@ -137,12 +140,31 @@ const IconPicker = ({
 		}
 	};
 
-	const renderUi = render ? (
+	const renderControlsUi = render ? (
 		render({ open })
 	) : (
-		<Trigger className="react-icons-picker__trigger" onClick={open}>
-			select icon
-		</Trigger>
+		<Controls className="react-icons-picker-controls">
+			<ControlsPlaceholder className="react-icons-picker-controls__placeholder">
+				{value ? (
+					<>
+						<ControlsReset aria-label="Reset" value={value} onClick={() => onChange(undefined)}>
+							<Icon size="12px" value="FaTimes" />
+						</ControlsReset>
+						<Icon size="32px" value={value} />
+					</>
+				) : (
+					<>{noSelectedPlaceholder}</>
+				)}
+			</ControlsPlaceholder>
+			<ControlsToggle
+				aria-label="Toggle Popover"
+				value="FaChevronDown"
+				className="react-icons-picker-controls__toggle"
+				onClick={open}
+			>
+				<Icon size="16px" value="FaChevronDown" />
+			</ControlsToggle>
+		</Controls>
 	);
 
 	// Search component props.
@@ -168,6 +190,7 @@ const IconPicker = ({
 
 	// IconList component props.
 	const iconListProps = {
+		value,
 		iconList,
 		pageInfo,
 		query,
@@ -176,6 +199,7 @@ const IconPicker = ({
 		showIconLabel,
 		highlightMatchedString,
 		noIconPlaceholder,
+		onChange,
 		setIsOpen,
 	};
 
@@ -185,14 +209,14 @@ const IconPicker = ({
 			ref={ref}
 			onKeyDown={(event) => handleEscapeKeyDown(event)}
 		>
-			{renderUi}
+			{renderControlsUi}
 			{isOpen && (
 				<Popover
 					style={popoverPosition}
-					className={classNames('react-icons-picker__popover')}
+					className={classNames('react-icons-picker-popover')}
 					showIconLabel={showIconLabel}
 				>
-					{title && <PopoverTitle className="react-icons-picker__title">{title}</PopoverTitle>}
+					{title && <PopoverTitle className="react-icons-picker-title">{title}</PopoverTitle>}
 					{showSearch && <Search {...searchProps} />}
 					{showCategory && <Category {...categoryProps} />}
 					<Pagination {...paginationProps} />
@@ -216,16 +240,85 @@ const Container = styled.div`
 	}
 `;
 
-const Trigger = styled.button`
-	border: none;
-	cursor: pointer;
-	background: transparent;
-	appearance: none;
-	outline: none;
-	color: ${theme.default.font};
-	padding: 0.5em 1em;
+const Controls = styled.div`
+	display: flex;
+	width: 130px;
+	height: 40px;
+	border: 1px solid ${theme.default.gray.primary};
 	border-radius: ${layout.radius.ui};
-	border: 1px solid currentColor;
+	position: relative;
+`;
+
+const ControlsPlaceholder = styled.div`
+	flex: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: ${theme.default.gray.secondary};
+	overflow: hidden;
+	text-align: center;
+	line-height: 1;
+
+	> svg {
+		color: ${theme.default.font};
+		margin-left: 8px;
+	}
+`;
+
+const ControlsReset = styled((props) => <button {...props} />)`
+	position: absolute;
+	left: 3px;
+	top: 3px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: #fff;
+	width: 20px;
+	height: 20px;
+	border: none;
+	padding: 0;
+	margin: 0;
+	background: ${theme.default.danger.primary};
+	transition: background ${layout.transition.duration};
+	border-radius: ${layout.radius.ui};
+	cursor: pointer;
+
+	&:hover {
+		background: ${theme.default.danger.secondary};
+	}
+	&:focus {
+		box-shadow: 0 0 0 2px ${theme.default.danger.primary}, inset 0 0 0 1px #fff;
+		outline: 1px solid transparent;
+	}
+`;
+
+const ControlsToggle = styled((props) => <button {...props} />)`
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: #fff;
+	font-family: inherit;
+	width: 40px;
+	height: 100%;
+	border: 1px solid ${theme.default.primary};
+	padding: 0;
+	margin: 0;
+	background: ${theme.default.primary};
+	transition: color ${layout.transition.duration}, background ${layout.transition.duration};
+	cursor: pointer;
+
+	&:hover {
+		background: ${theme.default.darker};
+	}
+	&:focus {
+		box-shadow: 0 0 0 2px ${theme.default.primary}, inset 0 0 0 1px #fff;
+		outline: 1px solid transparent;
+	}
+
+	&[disabled] {
+		background: ${theme.default.gray.tertiary};
+		pointer-events: none;
+	}
 `;
 
 /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars */

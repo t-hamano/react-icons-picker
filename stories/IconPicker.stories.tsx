@@ -14,6 +14,7 @@ export default {
 	title: 'components/IconPicker',
 	component: IconPicker,
 	argTypes: {
+		value: { control: { type: 'text' } },
 		position: {
 			options: [
 				'top',
@@ -39,17 +40,27 @@ export default {
 		searchPlaceholder: { control: { type: 'text' } },
 		categoryPlaceHolder: { control: { type: 'text' } },
 		noIconPlaceholder: { control: { type: 'text' } },
+		noSelectedPlaceholder: { control: { type: 'text' } },
 	},
 } as Meta;
 
 const Template: Story<IconPickerProps> = (args) => {
 	const [iconValue, setIconValue] = useState('iconValue', undefined);
-	return <IconPicker {...args} value={iconValue} onChange={(value) => setIconValue(value)} />;
+	return (
+		<IconPicker
+			{...args}
+			value={iconValue}
+			onChange={(value) => {
+				console.log(value);
+				setIconValue(value);
+			}}
+		/>
+	);
 };
 
 export const Default = Template.bind({});
 Default.args = {
-	value: 'IconPicker Value.',
+	value: undefined,
 	position: 'bottom',
 	className: '',
 	title: 'Select Icon',
@@ -63,4 +74,5 @@ Default.args = {
 	searchPlaceholder: 'search icons...',
 	categoryPlaceHolder: 'all category',
 	noIconPlaceholder: 'No icons found',
+	noSelectedPlaceholder: 'select icon',
 };

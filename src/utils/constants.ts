@@ -6,6 +6,10 @@ export const theme = {
 		font: '#1e1e1e',
 		primary: '#007cba',
 		darker: '#006ba1',
+		danger: {
+			primary: '#cc1818',
+			secondary: '#710d0d',
+		},
 		gray: {
 			primary: '#1e1e1e',
 			secondary: '#949494',

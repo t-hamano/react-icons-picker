@@ -4,7 +4,7 @@
 import * as AllIcons from 'react-icons/all';
 
 export interface IconProps {
-	value: keyof typeof AllIcons;
+	value: string;
 	/* eslint-disable @typescript-eslint/no-explicit-any */
 	[x: string]: any;
 }

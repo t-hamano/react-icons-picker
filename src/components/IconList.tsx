@@ -3,6 +3,7 @@
  */
 import type React from 'react';
 import styled from 'styled-components';
+import classNames from 'classnames';
 
 /**
  * Internal dependencies
@@ -11,6 +12,7 @@ import { theme, layout } from '../utils/constants';
 import type { Icons } from '../utils/icon';
 
 interface IconListProps {
+	value: string | undefined;
 	iconList: Icons;
 	pageInfo: { currentPage: number | undefined; perPage: number };
 	query: string;
@@ -19,10 +21,12 @@ interface IconListProps {
 	showIconLabel: boolean;
 	highlightMatchedString: boolean;
 	noIconPlaceholder: string;
+	onChange: (value: string) => void;
 	setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const IconList = ({
+	value,
 	iconList,
 	pageInfo,
 	query,
@@ -31,6 +35,7 @@ const IconList = ({
 	showIconLabel,
 	highlightMatchedString,
 	noIconPlaceholder,
+	onChange,
 	setIsOpen,
 }: IconListProps) => {
 	const offset = pageInfo.perPage * ((pageInfo.currentPage || 1) - 1);
@@ -47,8 +52,9 @@ const IconList = ({
 		return label;
 	};
 
-	/* eslint-disable @typescript-eslint/no-unused-vars */
 	const onClick = (label: string) => {
+		onChange(label);
+
 		if (closeOnSelect && label) {
 			setIsOpen(false);
 		}
@@ -62,9 +68,12 @@ const IconList = ({
 						return (
 							<Item colCount={colCount} key={index} className="react-icons-picker-icon-list__item">
 								<ItemButton
-									className="react-icons-picker-icon-list__item-button"
+									className={classNames('react-icons-picker-icon-list__item-button', {
+										'react-icons-picker-icon-list__item-button--selected': value === icon.label,
+									})}
 									aria-label={icon.label}
 									title={icon.label}
+									isSelected={value === icon.label}
 									onClick={() => onClick(icon.label)}
 								>
 									{typeof icon.element === 'function' && icon.element({ size: '1em' })}
@@ -107,13 +116,15 @@ const Item = styled(({ colCount, ...props }: { colCount: number; [x: string]: an
 	width: ${({ colCount }: { colCount: number }) => `${100 / colCount}%`};
 `;
 
-const ItemButton = styled((props) => <button {...props} />)`
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars */
+const ItemButton = styled(({ isSelected, ...props }: { isSelected: boolean; [x: string]: any }) => (
+	<button {...props} />
+))`
 	overflow: hidden;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	flex-flow: column;
-	color: inherit;
 	font-family: inherit;
 	width: 100%;
 	border: none;
@@ -124,6 +135,8 @@ const ItemButton = styled((props) => <button {...props} />)`
 	transition: border-color ${layout.transition.duration}, box-shadow ${layout.transition.duration};
 	border-radius: ${layout.radius.ui};
 	cursor: pointer;
+	color: ${({ isSelected }: { isSelected: boolean }) =>
+		isSelected ? theme.default.primary : 'inherit'};
 
 	&:hover,
 	&:focus {
