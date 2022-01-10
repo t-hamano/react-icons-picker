@@ -11,7 +11,7 @@ export const theme = {
 		ui: '2px',
 	},
 	fontSize: {
-		default: '14px',
+		default: '12px',
 	},
 	transition: {
 		duration: '0.2s',

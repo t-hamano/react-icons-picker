@@ -141,7 +141,11 @@ const IconPicker = ({
 		>
 			{renderUi}
 			{isOpen && (
-				<Popover style={popoverPosition} className={classNames('react-icons-picker__popover')}>
+				<Popover
+					style={popoverPosition}
+					className={classNames('react-icons-picker__popover')}
+					showIconLabel={showIconLabel}
+				>
 					{title && <PopoverTitle className="react-icons-picker__title">{title}</PopoverTitle>}
 					{showSearch && <Search {...searchProps} />}
 					{showCategory && <Category {...categoryProps} />}
@@ -177,11 +181,14 @@ const Trigger = styled.button`
 	border: 1px solid currentColor;
 `;
 
-const Popover = styled.div`
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars */
+const Popover = styled(
+	({ showIconLabel, ...props }: { showIconLabel: boolean; [x: string]: any }) => <div {...props} />
+)`
 	position: absolute;
 	background-color: #fff;
-	padding: 16px;
-	width: 360px;
+	padding: 8px;
+	width: ${({ showIconLabel }: { showIconLabel: boolean }) => (showIconLabel ? '350px' : '240px')};
 	border-radius: ${theme.radius.ui};
 	border: 1px solid ${theme.color.gray.primary};
 	z-index: 1000000;
@@ -191,5 +198,5 @@ const Popover = styled.div`
 const PopoverTitle = styled.div`
 	text-align: center;
 	font-weight: bold;
-	margin-bottom: 12px;
+	margin-bottom: 8px;
 `;

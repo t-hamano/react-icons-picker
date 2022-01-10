@@ -111,6 +111,8 @@ const ItemButton = styled((props) => <button {...props} />)`
 	align-items: center;
 	justify-content: center;
 	flex-flow: column;
+	color: inherit;
+	font-family: inherit;
 	width: 100%;
 	border: none;
 	padding: 8px;

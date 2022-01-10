@@ -52,17 +52,28 @@ const Container = styled.div`
 
 const Input = styled.input`
 	width: 100%;
-	font-size: ${theme.fontSize.default};
+	font-size: inherit;
 	font-family: inherit;
 	padding: 4px;
-	margin-bottom: 4px;
+	background-color: transparent;
 	border: none;
 	border-bottom: 1px solid ${theme.color.gray.secondary};
 	transition: border-color ${theme.transition.duration}, box-shadow ${theme.transition.duration};
+	appearance: none;
+	border-radius: 0;
+	color: inherit;
 
 	&:focus {
 		outline: 2px transparent;
 		border-color: ${theme.color.primary};
 		box-shadow: 0 1px ${theme.color.primary};
+	}
+
+	&::placeholder {
+		color: ${theme.color.gray.secondary};
+	}
+
+	&:-ms-input-placeholder {
+		color: ${theme.color.gray.secondary};
 	}
 `;
