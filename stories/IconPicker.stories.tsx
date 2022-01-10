@@ -61,7 +61,6 @@ const Template: Story<IconPickerProps> = (args) => {
 
 export const Default = Template.bind({});
 Default.args = {
-	value: undefined,
 	position: 'bottom',
 	className: '',
 	title: 'Select Icon',

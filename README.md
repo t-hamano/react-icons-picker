@@ -1,4 +1,9 @@
 # React Icons Picker
+
+[![Storybook GitHub Pages](https://github.com/t-hamano/react-icons-picker/actions/workflows/deploy-storybook.yml/badge.svg)](https://github.com/t-hamano/react-icons-picker/actions/workflows/deploy-storybook.yml)
+[![Tests](https://github.com/t-hamano/react-icons-picker/actions/workflows/tests.yml/badge.svg)](https://github.com/t-hamano/react-icons-picker/actions/workflows/tests.yml)
+[![Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@main/badge/badge-storybook.svg)](https://t-hamano.github.io/react-icons-picker/)
+
 :red_circle:This project is still under development.
 
 ## Demo
