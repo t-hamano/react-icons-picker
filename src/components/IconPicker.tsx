@@ -11,6 +11,7 @@ import type { CSSProperties } from 'react';
  */
 import Search from './Search';
 import Category from './Category';
+import Pagination from './Pagination';
 import IconList from './IconList';
 import { getPopoverPositionStyles } from '../utils/helper';
 import { theme } from '../utils/constants';
@@ -55,7 +56,7 @@ const IconPicker = ({
 	render,
 }: IconPickerProps) => {
 	const ref = useRef<HTMLDivElement>(null);
-	const [isOpen, setIsOpen] = useState(false);
+	const [isOpen, setIsOpen] = useState(true);
 	const [query, setQuery] = useState<string>('');
 	const [category, setCategory] = useState<string>('');
 	const [popoverPosition, setPopoverPosition] = useState<CSSProperties | undefined>(undefined);
@@ -149,6 +150,7 @@ const IconPicker = ({
 					{title && <PopoverTitle className="react-icons-picker__title">{title}</PopoverTitle>}
 					{showSearch && <Search {...searchProps} />}
 					{showCategory && <Category {...categoryProps} />}
+					<Pagination />
 					<IconList {...iconListProps} />
 				</Popover>
 			)}
