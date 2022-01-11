@@ -3,18 +3,16 @@
  */
 import _ from 'lodash';
 
-// Limit the number of libraries to keep the package bundle size down.
 import * as BsIcons from 'react-icons/bs';
 import * as FaIcons from 'react-icons/fa';
 import * as ImIcons from 'react-icons/im';
 import * as MdIcons from 'react-icons/md';
-
-import type { IconType } from 'react-icons';
 /* @ts-ignore */
 import { IconsManifest } from 'react-icons';
+import type { IconType } from 'react-icons';
 
 /**
- * A list of icons categorized by font library
+ * A list of icons
  */
 export const allIcons = {
 	...BsIcons,
@@ -23,10 +21,11 @@ export const allIcons = {
 	...MdIcons,
 };
 
+export type IconValues = keyof typeof allIcons;
+
 /**
  * A list of icons categorized by font library
  */
-
 export const iconsLib = [
 	{ id: 'bs', icons: BsIcons },
 	{ id: 'fa', icons: FaIcons },
@@ -38,7 +37,7 @@ export const iconsLib = [
  * Type of the icon list retrieved by `getIcons()` function
  */
 export type Icons = {
-	label: string;
+	label: IconValues;
 	element: IconType;
 }[];
 
@@ -77,6 +76,7 @@ export function getIcons({
 				);
 				if (Object.keys(filteredIcons).length) {
 					result.push(
+						/* @ts-ignore */
 						...Object.entries(filteredIcons).map(([key, value]) => ({ label: key, element: value }))
 					);
 				}

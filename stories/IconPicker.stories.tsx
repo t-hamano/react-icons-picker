@@ -15,24 +15,8 @@ export default {
 	component: IconPicker,
 	argTypes: {
 		value: { control: { type: 'text' } },
-		position: {
-			options: [
-				'top',
-				'top right',
-				'right',
-				'bottom right',
-				'bottom',
-				'bottom left',
-				'left',
-				'left top',
-			],
-			control: { type: 'inline-radio' },
-		},
 		className: { control: { type: 'text' } },
-		title: { control: { type: 'text' } },
-		closeOnSelect: { control: { type: 'boolean' } },
-		shouldCloseOnEsc: { control: { type: 'boolean' } },
-		focusOnSearch: { control: { type: 'boolean' } },
+		showPreview: { control: { type: 'boolean' } },
 		showSearch: { control: { type: 'boolean' } },
 		showCategory: { control: { type: 'boolean' } },
 		showIconLabel: { control: { type: 'boolean' } },
@@ -41,6 +25,18 @@ export default {
 		categoryPlaceHolder: { control: { type: 'text' } },
 		noIconPlaceholder: { control: { type: 'text' } },
 		noSelectedPlaceholder: { control: { type: 'text' } },
+		theme: {
+			options: [
+				{
+					hoge: {
+						primary: '#1e1e1e',
+						accent: '#007cba',
+						alert: '#cc1818',
+					},
+				},
+			],
+			control: { type: 'inline-radio' },
+		},
 	},
 } as Meta;
 
@@ -52,8 +48,10 @@ const Template: Story<IconPickerProps> = (args) => {
 			{...args}
 			value={iconValue}
 			onChange={(value) => {
-				console.log(value);
 				setIconValue(value);
+			}}
+			style={{
+				minHeight: '500px',
 			}}
 		/>
 	);
@@ -61,12 +59,8 @@ const Template: Story<IconPickerProps> = (args) => {
 
 export const Default = Template.bind({});
 Default.args = {
-	position: 'bottom',
 	className: '',
-	title: 'Select Icon',
-	closeOnSelect: true,
-	shouldCloseOnEsc: true,
-	focusOnSearch: true,
+	showPreview: true,
 	showSearch: true,
 	showCategory: true,
 	showIconLabel: true,
@@ -74,5 +68,10 @@ Default.args = {
 	searchPlaceholder: 'search icons...',
 	categoryPlaceHolder: 'all category',
 	noIconPlaceholder: 'No icons found',
-	noSelectedPlaceholder: 'select icon',
+	noSelectedPlaceholder: 'No icon selected',
+	theme: {
+		primary: '#1e1e1e',
+		accent: '#007cba',
+		alert: '#cc1818',
+	},
 };

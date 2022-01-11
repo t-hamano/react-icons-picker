@@ -1,46 +1,40 @@
 /**
  * External dependencies
  */
-import React, { useEffect, useRef } from 'react';
-import styled from 'styled-components';
+import React from 'react';
+import styled, { ThemeProvider } from 'styled-components';
+import { lighten } from 'polished';
 
 /**
  * Internal dependencies
  */
-import { theme, layout } from '../utils/constants';
+import type { Theme } from './IconPicker';
 
 interface SearchProps {
 	searchPlaceholder: string;
-	focusOnSearch?: boolean;
 	query: string;
 	setQuery: React.Dispatch<React.SetStateAction<string>>;
+	theme: Theme;
 }
 
-const Search = ({ searchPlaceholder, focusOnSearch, query, setQuery }: SearchProps) => {
-	const ref = useRef<HTMLInputElement>(null);
-
-	useEffect(() => {
-		if (ref.current && focusOnSearch) {
-			ref.current.focus();
-		}
-	}, []);
-
+const Search = ({ searchPlaceholder, query, setQuery, theme }: SearchProps) => {
 	const onSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const query = event.target.value;
 		setQuery(query);
 	};
 
 	return (
-		<Container className="react-icons-picker-search">
-			<Input
-				type="text"
-				className="react-icons-picker-search__input"
-				placeholder={searchPlaceholder}
-				value={query}
-				onChange={onSearch}
-				ref={ref}
-			/>
-		</Container>
+		<ThemeProvider theme={theme}>
+			<Container className="react-icons-picker-search">
+				<Input
+					type="text"
+					className="react-icons-picker-search__input"
+					placeholder={searchPlaceholder}
+					value={query}
+					onChange={onSearch}
+				/>
+			</Container>
+		</ThemeProvider>
 	);
 };
 
@@ -51,29 +45,31 @@ const Container = styled.div`
 `;
 
 const Input = styled.input`
-	width: 100%;
-	font-size: inherit;
-	font-family: inherit;
-	padding: 4px;
-	background-color: transparent;
-	border: none;
-	border-bottom: 1px solid ${theme.default.gray.secondary};
-	transition: border-color ${layout.transition.duration}, box-shadow ${layout.transition.duration};
-	appearance: none;
-	border-radius: 0;
-	color: inherit;
+	&& {
+		width: 100%;
+		font-size: inherit;
+		font-family: inherit;
+		padding: 4px;
+		background-color: transparent;
+		border: none;
+		border-bottom: 1px solid ${(props) => props.theme.primary};
+		transition: border-color 0.2s, box-shadow 0.2s;
+		appearance: none;
+		border-radius: 0;
+		color: inherit;
 
-	&:focus {
-		outline: 2px transparent;
-		border-color: ${theme.default.primary};
-		box-shadow: 0 1px ${theme.default.primary};
-	}
+		&:focus {
+			outline: 2px transparent;
+			border-color: ${(props) => props.theme.accent};
+			box-shadow: 0 1px ${(props) => props.theme.accent};
+		}
 
-	&::placeholder {
-		color: ${theme.default.gray.secondary};
-	}
+		&::placeholder {
+			color: ${(props) => lighten(0.4, props.theme.primary)};
+		}
 
-	&:-ms-input-placeholder {
-		color: ${theme.default.gray.secondary};
+		&:-ms-input-placeholder {
+			color: ${(props) => lighten(0.4, props.theme.primary)};
+		}
 	}
 `;

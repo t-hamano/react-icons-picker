@@ -2,22 +2,24 @@
  * External dependencies
  */
 import React from 'react';
-import styled from 'styled-components';
+import styled, { ThemeProvider } from 'styled-components';
+import { darken, lighten } from 'polished';
 
 /**
  * Internal dependencies
  */
-import { theme, layout } from '../utils/constants';
 import Icon from './Icon';
+import type { Theme } from './IconPicker';
 
 interface PaginationProps {
 	pageInfo: { currentPage: number | undefined; perPage: number; maxPage: number };
 	setPageInfo: React.Dispatch<
 		React.SetStateAction<{ currentPage: number | undefined; perPage: number; maxPage: number }>
 	>;
+	theme: Theme;
 }
 
-const Pagination = ({ pageInfo, setPageInfo }: PaginationProps) => {
+const Pagination = ({ pageInfo, setPageInfo, theme }: PaginationProps) => {
 	const onPagerChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const value = event.target.value;
 		const parsedValue = parseInt(value);
@@ -37,35 +39,37 @@ const Pagination = ({ pageInfo, setPageInfo }: PaginationProps) => {
 	};
 
 	return (
-		<Container className="react-icons-picker-pagination">
-			<Pager className="react-icons-picker-pagination__pager">
-				<Input
-					type="number"
-					className="react-icons-picker-pagination__input"
-					min="1"
-					max={pageInfo.maxPage}
-					value={pageInfo.currentPage}
-					onChange={onPagerChange}
-				/>
-				/ {pageInfo.maxPage}
-			</Pager>
-			<Arrow
-				className="react-icons-picker-pagination__arrow"
-				aria-label="Previous Page"
-				disabled={!pageInfo.currentPage || pageInfo.currentPage === 1}
-				onClick={() => onClickArrow(-1)}
-			>
-				<Icon size="14px" value="FaChevronLeft" />
-			</Arrow>
-			<Arrow
-				className="react-icons-picker-pagination__arrow"
-				aria-label="Next Page"
-				disabled={pageInfo.currentPage && pageInfo.currentPage >= pageInfo.maxPage}
-				onClick={() => onClickArrow(1)}
-			>
-				<Icon size="14px" value="FaChevronRight" />
-			</Arrow>
-		</Container>
+		<ThemeProvider theme={theme}>
+			<Container className="react-icons-picker-pagination">
+				<Pager className="react-icons-picker-pagination__pager">
+					<Input
+						type="number"
+						className="react-icons-picker-pagination__input"
+						min="1"
+						max={pageInfo.maxPage}
+						value={pageInfo.currentPage}
+						onChange={onPagerChange}
+					/>
+					/ {pageInfo.maxPage}
+				</Pager>
+				<Arrow
+					className="react-icons-picker-pagination__arrow"
+					aria-label="Previous Page"
+					disabled={!pageInfo.currentPage || pageInfo.currentPage === 1}
+					onClick={() => onClickArrow(-1)}
+				>
+					<Icon size="14px" value={'FaChevronLeft'} />
+				</Arrow>
+				<Arrow
+					className="react-icons-picker-pagination__arrow"
+					aria-label="Next Page"
+					disabled={pageInfo.currentPage && pageInfo.currentPage >= pageInfo.maxPage}
+					onClick={() => onClickArrow(1)}
+				>
+					<Icon size="14px" value={'FaChevronRight'} />
+				</Arrow>
+			</Container>
+		</ThemeProvider>
 	);
 };
 
@@ -83,38 +87,32 @@ const Pager = styled.div`
 `;
 
 const Input = styled.input`
-	font-size: inherit;
-	font-family: inherit;
-	padding: 4px;
-	background-color: transparent;
-	border: none;
-	border-bottom: 1px solid ${theme.default.gray.secondary};
-	transition: border-color ${layout.transition.duration}, box-shadow ${layout.transition.duration};
-	appearance: none;
-	text-align: right;
-	border-radius: 0;
-	color: inherit;
-	width: calc(3em + 8px);
-	margin: 0;
-	-moz-appearance: textfield;
-
-	&:focus {
-		outline: 2px transparent;
-		border-color: ${theme.default.primary};
-		box-shadow: 0 1px ${theme.default.primary};
-	}
-
-	&::placeholder {
-		color: ${theme.default.gray.secondary};
-	}
-
-	&:-ms-input-placeholder {
-		color: ${theme.default.gray.secondary};
-	}
-
-	&::-webkit-inner-spin-button,
-	&::-webkit-outer-spin-button {
+	&& {
+		font-size: inherit;
+		font-family: inherit;
+		padding: 4px;
+		background-color: transparent;
+		border: none;
+		border-bottom: 1px solid ${(props) => props.theme.primary};
+		transition: border-color 0.2s, box-shadow 0.2s;
 		appearance: none;
+		text-align: right;
+		border-radius: 0;
+		color: inherit;
+		width: calc(3em + 8px);
+		margin: 0;
+		-moz-appearance: textfield;
+
+		&:focus {
+			outline: 2px transparent;
+			border-color: ${(props) => props.theme.accent};
+			box-shadow: 0 1px ${(props) => props.theme.accent};
+		}
+
+		&::-webkit-inner-spin-button,
+		&::-webkit-outer-spin-button {
+			appearance: none;
+		}
 	}
 `;
 
@@ -129,21 +127,21 @@ const Arrow = styled((props) => <button {...props} />)`
 	border: none;
 	padding: 0;
 	margin: 0 0 0 8px;
-	background: ${theme.default.primary};
-	transition: color ${layout.transition.duration}, background ${layout.transition.duration};
-	border-radius: ${layout.radius.ui};
+	background: ${(props) => props.theme.accent};
+	transition: color 0.2s, background 0.2s;
+	border-radius: 2px;
 	cursor: pointer;
 
 	&:hover {
-		background: ${theme.default.darker};
+		background: ${(props) => darken(0.1, props.theme.accent)};
 	}
 	&:focus {
-		box-shadow: 0 0 0 2px ${theme.default.primary}, inset 0 0 0 1px #fff;
+		box-shadow: 0 0 0 2px ${(props) => props.theme.accent}, inset 0 0 0 1px #fff;
 		outline: 1px solid transparent;
 	}
 
 	&[disabled] {
-		background: ${theme.default.gray.tertiary};
+		background: ${(props) => lighten(0.4, props.theme.primary)};
 		pointer-events: none;
 	}
 `;
