@@ -7,7 +7,8 @@ import { Meta, Story } from '@storybook/react';
 /**
  * Internal dependencies
  */
-import Icon, { allIcons, IconProps } from '../src/components/Icon';
+import Icon, { IconProps } from '../src/components/Icon';
+import { allIcons } from '../src/utils/icon';
 
 export default {
 	title: 'components/Icon',

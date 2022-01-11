@@ -3,14 +3,15 @@
  */
 import React from 'react';
 import styled from 'styled-components';
+/* @ts-ignore */
+import { IconsManifest } from 'react-icons';
 
 /**
  * Internal dependencies
  */
 import { theme, layout } from '../utils/constants';
 import Icon from './Icon';
-import { iconCategories } from './Icon';
-import type { IconCategory } from './Icon';
+import { iconCategories } from '../utils/icon';
 
 interface CategoryProps {
 	categoryPlaceHolder: string;
@@ -27,7 +28,7 @@ const Category = ({ categoryPlaceHolder, category, setCategory }: CategoryProps)
 		<Container className="react-icons-picker-category">
 			<Select onChange={onChange} value={category}>
 				<option value="">{categoryPlaceHolder}</option>
-				{iconCategories.map((category: IconCategory) => (
+				{iconCategories.map((category: typeof IconsManifest) => (
 					<option key={category.id} value={category.id}>
 						{category.name}
 					</option>
